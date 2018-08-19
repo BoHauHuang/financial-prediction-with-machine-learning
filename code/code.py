@@ -26,15 +26,14 @@ data['date'] = data['Date'].dt.day
 dataset = data.drop(['Date'], axis=1)
 #print(dataset)
 dataset = dataset.dropna()
-print(dataset)
+#print(dataset)
 #print(len(dataset['Price']))
-#dataset = dataset.astype('float64')
+dataset = dataset.astype(int)
 #dataset = dataset.apply(lambda x: (x-np.mean(x)) /(np.max(x) - np.min(x)))
 
 #x_scaler = MinMaxScaler()
 #y_scaler = MinMaxScaler()
-
-#print(dataset)
+#print(dataset['Price'].values)
 
 
 look_back = 1
@@ -140,7 +139,7 @@ testPredictPlot[:] = np.nan
 testPredictPlot[len(train_predict)+(look_back*2)+1:len(dataset['Price'])-3] = test_predict[:,0]
 #print(testPredictPlot)
 
-plt.plot(dataset['Price'])
+plt.plot(dataset['Price'].values)
 #plt.plot(train_predict)
 #plt.plot(scaler.inverse_transform(dataset))
 plt.plot(trainPredictPlot,'r')
