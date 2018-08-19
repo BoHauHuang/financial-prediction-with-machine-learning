@@ -28,7 +28,8 @@ dataset = data.drop(['Date'], axis=1)
 dataset = dataset.dropna()
 #print(dataset)
 #print(len(dataset['Price']))
-dataset = dataset.astype(int)
+prices = dataset.astype(int)
+prices = prices['Price'].values
 #dataset = dataset.apply(lambda x: (x-np.mean(x)) /(np.max(x) - np.min(x)))
 
 #x_scaler = MinMaxScaler()
@@ -84,7 +85,7 @@ train_x, train_y, test_x, test_y = splitData(train_x, train_y, 0.1)
 
 model = Sequential()
 #model.add(LSTM(8, input_shape=(1, look_back)))
-model.add(LSTM(8, input_shape=(train_x.shape[1], train_x.shape[2]), return_sequences=False, activation = 'linear')) 
+model.add(LSTM(6, input_shape=(train_x.shape[1], train_x.shape[2]), return_sequences=False, activation = 'linear')) 
 # 100: selu 1.76
 # 150: linear 0.97
 # 200: softplus 1.15
@@ -104,7 +105,7 @@ train_predict = model.predict(train_x)
 test_predict = model.predict(test_x)
 #print(test_predict[0])
 #print(test_predict.shape)
-print(test_predict[:,0])
+#print(test_predict[:,0])
 #print(dataset['Price'].values)
 
 
@@ -139,10 +140,9 @@ testPredictPlot[:] = np.nan
 testPredictPlot[len(train_predict)+(look_back*2)+1:len(dataset['Price'])-3] = test_predict[:,0]
 #print(testPredictPlot)
 
-plt.plot(dataset['Price'].values)
+plt.plot(prices)
 #plt.plot(train_predict)
 #plt.plot(scaler.inverse_transform(dataset))
 plt.plot(trainPredictPlot,'r')
-#plt.plot(testPredictPlot,'b')
+plt.plot(testPredictPlot,'b')
 plt.show()
-
